@@ -8,7 +8,7 @@ export class Answer {
     createKey() {
         for (let i = 0; i < this.word.length; i++){
             const letter = this.word[i];
-            this.key[letter] = i;
+            this.key[i] = letter;
         }
     }
 }
@@ -24,9 +24,8 @@ export class Guess {
     createTiles(){
         for (let i = 0; i < this.guess.length; i++){
             const letter = this.guess[i]
-            const tile = new Tile(i, letter, answer)
-            
-            this.board[this.count].push(tile);
+            const tile = new Tile(i, letter, this.answer)
+            this.board.grid[this.count][i].push(tile);
         }
         
     }
@@ -41,18 +40,20 @@ export class Tile {
         this.correctLetter = false;
         this.correctPos = false;
 
+        this.correct = this.correct.bind(this);
+
         this.checkLetter();
         this.checkPos();
     }
 
     checkLetter() {
-        if (this.letter in this.answer){
+        if (Object.values(this.answer).includes(this.letter)){
             this.correctLetter = true;
         };
     }
 
     checkPos() {
-        if (this.answer[this.letter] === this.pos){
+        if (this.answer[this.pos] === this.letter){
             this.correctPos = true;
         }
     }
@@ -64,15 +65,21 @@ export class Tile {
 
 export class Board {
     constructor(answer) {
-        this.answer = answer;
+        this.answer = new Answer(answer);
         this.grid = [];
         this.count = 0;
+
+        this.makeGuess = this.makeGuess.bind(this);
+
         this.generateBoard();
     }
 
     generateBoard() {
         for (let i = 0; i < 6; i++){
             this.grid.push([]);
+            for (let j = 0; j < 5; j++){
+                this.grid[i].push([]);
+            }
         }
     }
 
@@ -82,19 +89,20 @@ export class Board {
 
         if (!this.won(this.count)){
             if (this.count === 5){
-                return 'You lose'
+                console.log('L')
             } else {
                 this.count++;
             }
         } else {
-            return 'You win'
+            console.log('W')
         }
     }
 
     won(row){
         const currentGuess = this.grid[row];
+        console.log(currentGuess)
         for (let tile of currentGuess){
-            if (!tile.correct()) return false;
+            if (!tile.correct) return false;
         }
 
         return true;

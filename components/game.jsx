@@ -1,29 +1,29 @@
 import React from 'react';
 import { WORDS } from './words';
+import Board from './board';
 import GuessForm from './guess_form';
+import * as Wordle from '../wordle';
 
-class Game extends React.Component {
+const answer = WORDS[Math.floor(Math.random() * (WORDS.length - 1))]
+
+export default class Game extends React.Component {
     constructor(props){
         super(props);
-        this.answer = "";
-        this.guess = "";
-    }
-
-    generateWord() {
-        return WORDS[Math.floor(Math.random() * WORDS.length - 1)]
+        this.answer = answer;
+        this.state = {
+            board: new Wordle.Board(this.answer),
+        }
     }
 
     render() {
         return(
             <div id='main'>
-                <h1>Wordle</h1>
                 <div id="display"> 
-                    {this.generateWord()}
+                    {this.answer}
                 </div>
-                <GuessForm />
+                <Board board={this.state.board} />
+                <GuessForm board={this.state.board} />
             </div>
         )
     }
 }
-
-export default Game;

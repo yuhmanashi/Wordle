@@ -1,26 +1,37 @@
 import React from 'react';
 
-class GuessForm extends React.Component {
+export default class GuessForm extends React.Component {
     constructor(props){
         super(props);
         this.state = {
             guess: "",
         }
+
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     update(){
+        // console.log(this.state.guess)
         return e => this.setState({ 'guess': e.target.value })
     }
 
-    handleSubmit(){
+    handleSubmit(e){
         e.preventDefault();
+        this.props.board.makeGuess(this.state.guess);
+        this.setState({ guess: "" })
     }
 
     render(){
-        <div>
-            Hi
-        </div>
+        return(
+            <form id="form" onSubmit={this.handleSubmit}>
+                <input type="text" 
+                    className='input'
+                    value={this.state.guess}
+                    placeholder="Enter a guess"
+                    onChange={this.update()}
+                />
+                <input type="submit" />
+            </form>
+        )
     }
 }
-
-export default GuessForm;
