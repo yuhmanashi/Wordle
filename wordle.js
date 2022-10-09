@@ -1,3 +1,5 @@
+import { WORDS } from './components/words'
+
 export class Answer {
     constructor(word){
         this.word = word;
@@ -13,37 +15,20 @@ export class Answer {
     }
 }
 
-export class Guess {
-    constructor(board, guess, count, answer){
-        this.board = board;
-        this.guess = guess;
-        this.count = count;
-        this.answer = answer;
-    }
-
-    createTiles(){
-        for (let i = 0; i < this.guess.length; i++){
-            const letter = this.guess[i]
-            const tile = new Tile(i, letter, this.answer)
-            this.board.grid[this.count][i].push(tile);
-        }
-        
-    }
-}
-
 export class Tile {
-    constructor(pos, letter, answer){
+    constructor(pos, letter, answer, count){
+        this.count = count;
         this.pos = pos;
         this.letter = letter;
         this.answer = answer;
 
         this.correctLetter = false;
         this.correctPos = false;
-
-        this.correct = this.correct.bind(this);
-
+        
         this.checkLetter();
         this.checkPos();
+
+        this.correct = this.correct.bind(this);
     }
 
     checkLetter() {
@@ -69,46 +54,62 @@ export class Board {
         this.grid = [];
         this.count = 0;
 
-        this.makeGuess = this.makeGuess.bind(this);
-
         this.generateBoard();
     }
 
     generateBoard() {
+        const row = ["", "", "", "", ""];
         for (let i = 0; i < 6; i++){
-            this.grid.push([]);
-            for (let j = 0; j < 5; j++){
-                this.grid[i].push([]);
-            }
+            this.grid.push(row);
+            // for (let j = 0; j < 5; j++){
+            //     this.grid[i].push("");
+            // }
         }
     }
 
-    makeGuess(word) {
-        const guess = new Guess(this, word, this.count, this.answer.key);
-        guess.createTiles();
+    updateRow(word){
+        const count = this.count
+        if (count > 5) return;
+        const newRow = ["", "", "", "", ""];
+        for (let i = 0; i < word.length; i++){
+            const tile = new Tile(i, word[i], this.answer.key, count);
+            newRow[i] = tile
+        }
 
-        if (!this.won(this.count)){
-            if (this.count === 5){
+        this.grid[count] = newRow;
+    }
+
+    validWord(word){
+        return WORDS.includes(word)
+    }
+
+    checkGuess(word) {
+        if (!this.validWord(word)){
+            console.log('Invalid Word')
+            return false;
+        } else {
+            this.checkWin();
+            return true;
+        }
+    }
+
+    checkWin() {
+        if (!this.win(this.count)){
+            this.count++;
+            if (this.count === 6){
                 console.log('L')
-            } else {
-                this.count++;
             }
         } else {
             console.log('W')
         }
     }
 
-    won(row){
+    win(row){
         const currentGuess = this.grid[row];
-        console.log(currentGuess)
         for (let tile of currentGuess){
-            if (!tile.correct) return false;
+            if (!tile.correct()) return false;
         }
 
         return true;
-    }
-
-    lost(){
-        return this.grid[5].length !== 0;
     }
 }

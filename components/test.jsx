@@ -1,36 +1,45 @@
 import React from 'react';
+import Board from './board';
 
 export default class GuessForm extends React.Component {
     constructor(props){
         super(props);
         this.state = {
+            board: this.props.board,
             guess: "",
         }
 
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.makeBoard = this.makeBoard.bind(this)
     }
 
     update(){
-        // console.log(this.state.guess)
-        return e => this.setState({ 'guess': e.target.value })
+        return e => this.setState({ guess: e.target.value })
     }
     
     handleSubmit(e){
         e.preventDefault();
-        this.props.board.makeGuess(this.state.guess);
-        this.props.updateBoard();
-        this.setState({ guess: "" })
+        if (this.props.board.checkGuess(this.state.guess)){
+            this.setState({ guess: "" })
+        };
+    }
+
+    makeBoard(){
+        this.state.board.updateRow(this.state.guess);
+
+        return (
+            <Board board={this.state.board} />
+        )
     }
 
     render(){
-        // console.log(this.props)
         return(
             <div>
-                <div>
-                    {this.state.guess}
-                </div>
+                {this.makeBoard()}
+                <br />
                 <form id="form" onSubmit={this.handleSubmit}>
                     <input type="text" 
+                        maxLength="5"
                         className='input'
                         value={this.state.guess}
                         placeholder="Enter a guess"
