@@ -10,17 +10,22 @@ export class Answer {
     createKey() {
         for (let i = 0; i < this.word.length; i++){
             const letter = this.word[i];
-            this.key[i] = letter;
+            if (letter in this.key){
+                this.key[letter].push(i);
+            } else {
+                this.key[letter] = [i]
+            }
         }
     }
 }
 
 export class Tile {
-    constructor(pos, letter, answer, count){
+    constructor(pos, letter, answer, count, word){
         this.count = count;
         this.pos = pos;
         this.letter = letter;
         this.answer = answer;
+        this.word = word;
 
         this.correctLetter = false;
         this.correctPos = false;
@@ -32,14 +37,16 @@ export class Tile {
     }
 
     checkLetter() {
-        if (Object.values(this.answer).includes(this.letter)){
+        if (this.letter in this.answer){
             this.correctLetter = true;
         };
     }
 
     checkPos() {
-        if (this.answer[this.pos] === this.letter){
-            this.correctPos = true;
+        if (this.answer[this.letter]){
+            if(this.answer[this.letter].includes(this.pos)){
+                this.correctPos = true;
+            }
         }
     }
 
@@ -53,8 +60,26 @@ export class Board {
         this.answer = new Answer(answer);
         this.grid = [];
         this.count = 0;
+        this.guessCount = {};
 
         this.generateBoard();
+    }
+
+    checkLetterCount() {
+        const count = this.letterCount();
+    }
+
+    letterCount() {
+        const count = {};
+        for (let letter of this.word){
+            if (letter in count){
+                count[letter] += 1;
+            } else {
+                count[letter] = 1;
+            }
+        }
+
+        this.guessCount = count;
     }
 
     generateBoard() {
@@ -72,7 +97,7 @@ export class Board {
         if (count > 5) return;
         const newRow = ["", "", "", "", ""];
         for (let i = 0; i < word.length; i++){
-            const tile = new Tile(i, word[i], this.answer.key, count);
+            const tile = new Tile(i, word[i], this.answer.key, count, word);
             newRow[i] = tile
         }
 

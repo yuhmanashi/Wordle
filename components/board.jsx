@@ -7,7 +7,7 @@ export default class Board extends React.Component {
             <div id='board'>
                 {this.props.board.grid.map((row, i) => {
                     return <div className='row' key={i}>{row.map((tile, i) => {
-                        return <Tile tile={tile} key={i} count={this.props.board.count}/>
+                        return <Tile tile={tile} key={i} count={this.props.board.count} />
                     })}
                     </div>
                 })}
