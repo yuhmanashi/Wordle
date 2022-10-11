@@ -14,7 +14,7 @@ export default class Tile extends React.Component {
             letter = tile.letter.toUpperCase();
             bColor = 'black';
             
-            if (tile.count !== count){
+            if (tile.attempt !== count){
                 fColor = 'white';
                 if (tile.correct()){
                     bColor = 'green'

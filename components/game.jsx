@@ -6,13 +6,13 @@ import GuessForm from './test';
 import * as Wordle from '../wordle';
 
 const answer = WORDS[Math.floor(Math.random() * (WORDS.length - 1))]
+// const answer = 'tenth';
 
 export default class Game extends React.Component {
     constructor(props){
         super(props);
-        this.answer = answer;
         this.state = {
-            board: new Wordle.Board(this.answer),
+            board: new Wordle.Board(answer),
             guess: ""
         }
 
@@ -38,7 +38,7 @@ export default class Game extends React.Component {
         return(
             <div id='main'>
                 <div id="display"> 
-                    {this.answer}
+                    {answer}
                 </div>
                 {/* <Board board={this.state.board} /> */}
                 <br></br>
