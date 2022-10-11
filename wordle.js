@@ -1,3 +1,4 @@
+import { transformFileSync } from '@babel/core';
 import { WORDS } from './components/words'
 
 export class Answer {
@@ -20,18 +21,18 @@ export class Answer {
 }
 
 export class Tile {
-    constructor(pos, letter, answer, count, word){
+    constructor(pos, letter, answer, count){
         this.count = count;
         this.pos = pos;
         this.letter = letter;
+        
         this.answer = answer;
-        this.word = word;
 
         this.correctLetter = false;
         this.correctPos = false;
         
-        this.checkLetter();
         this.checkPos();
+        this.checkLetter();
 
         this.correct = this.correct.bind(this);
     }
@@ -94,10 +95,11 @@ export class Board {
 
     updateRow(word){
         const count = this.count
+        
         if (count > 5) return;
         const newRow = ["", "", "", "", ""];
         for (let i = 0; i < word.length; i++){
-            const tile = new Tile(i, word[i], this.answer.key, count, word);
+            const tile = new Tile(i, word[i], this.answer.key, count);
             newRow[i] = tile
         }
 
@@ -136,5 +138,75 @@ export class Board {
         }
 
         return true;
+    }
+}
+
+export class Guess {
+    constructor(guess, answer, count){
+        this.guess = guess
+        this.answer = answer
+        this.count = count
+    }
+
+    guessCount() {
+        const count = {};
+        for (let letter of this.guess){
+            if (letter in count){
+                count[letter] += 1;
+            } else {
+                count[letter] = 1;
+            }
+        }
+
+        return count;
+    }
+
+    guessCheck(){
+        for (let i = 0; i < 5; i++){
+            const guess = this.guess[i];
+            const ans = this.answer[i];
+            if (guess === ans){
+
+            }
+        }
+    }
+
+    createTiles(pos, word, ans, count){
+        const tiles = [];
+        for (let i = 0; i < word.length; i++){
+            const tile = new Tile(pos, word[i], ans, count);
+            tiles.push(tile)
+        } 
+
+        return tiles;
+    }
+
+    //ans is a key
+    // ans[letter] = [positions]
+
+    checkGuess(){
+        // let guessCount = this.guessCount();
+        // let correctLetters = Object.keys(guessCount); // returns all correct letters in answer
+        // for (let letter of correctLetters){
+        //      const correctPositions = this.answer[letter] // returns all positions where letter is correct
+        //      const positions = guessCount[letter] // returns all positions of letter in guess
+        //      if (positions.length > correctPositions.length){
+        //          
+        //      }
+        //      look for mismatches
+        // }
+        // let incorrectPos = [];
+        
+        for (let i = 0; i < this.guess; i++){
+            // const letter = this.guess[i]
+            // const positions = this.answer[letter]
+            // let correctLetter = positions === undefined ? false : true;
+            // let correctPos = false;
+            // if (correctLetter){
+            //    correctPos = positions.includes(i) ? true : false
+            // }
+            
+            // if (correctLetter && !correctPos)
+        }
     }
 }
