@@ -36,9 +36,6 @@ export class Board {
         const row = ["", "", "", "", ""];
         for (let i = 0; i < 6; i++){
             this.grid.push(row);
-            // for (let j = 0; j < 5; j++){
-            //     this.grid[i].push("");
-            // }
         }
     }
 

@@ -9,8 +9,9 @@ export default class GuessForm extends React.Component {
             guess: "",
         }
 
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.makeBoard = this.makeBoard.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.makeBoard = this.makeBoard.bind(this);
+        this.input = this.input.bind(this);
     }
 
     update(){
@@ -32,21 +33,28 @@ export default class GuessForm extends React.Component {
         )
     }
 
+    input(){
+        return (
+            <form id="form" onSubmit={this.handleSubmit}>
+                <input type="text" 
+                    maxLength="5"
+                    className='input'
+                    value={this.state.guess}
+                    placeholder="Enter a guess"
+                    onChange={this.update()}
+                    />
+                <input type="submit" />
+            </form>
+        )
+    }
+
     render(){
         return(
             <div>
                 {this.makeBoard()}
                 <br />
-                <form id="form" onSubmit={this.handleSubmit}>
-                    <input type="text" 
-                        maxLength="5"
-                        className='input'
-                        value={this.state.guess}
-                        placeholder="Enter a guess"
-                        onChange={this.update()}
-                    />
-                    <input type="submit" />
-                </form>
+                {this.input()}
+                {/* <Keyboard guess={this.state.guess} updateGuess={this.updateGuess} /> */}
             </div>
         )
     }

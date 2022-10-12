@@ -3,6 +3,7 @@ import { WORDS } from './words';
 import Board from './board';
 // import GuessForm from './guess_form';
 import GuessForm from './test';
+import Keyboard from './keyboard';
 import * as Wordle from '../wordle';
 
 const answer = WORDS[Math.floor(Math.random() * (WORDS.length - 1))]
@@ -37,6 +38,7 @@ export default class Game extends React.Component {
         // console.log(this.state.board)
         return(
             <div id='main'>
+                <h1>Wordle</h1>
                 <div id="display"> 
                     {answer}
                 </div>
