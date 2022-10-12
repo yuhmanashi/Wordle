@@ -39,9 +39,7 @@ export default class Game extends React.Component {
         return(
             <div id='main'>
                 <h1>Wordle</h1>
-                <div id="display"> 
-                    {answer}
-                </div>
+                <hr />
                 {/* <Board board={this.state.board} /> */}
                 <br></br>
                 <GuessForm board={this.state.board} />

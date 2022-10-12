@@ -6,7 +6,24 @@
     align-items: center;
 }
 
+hr {
+    border: 1px solid rgb(224, 224, 224);
+    width: 100%;
+}
+
+/* DISPLAY */
+.display {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 /* BOARD */
+#board {
+    margin: 40px;
+}
+
 .row {
     width: 300px;
     height: 55px;
@@ -16,7 +33,7 @@
 }
 
 .tile {
-    border: 1px solid gray;
+    border: 1px solid #D3D3D3;
     height: 50px;
     width: 50px;
     margin: 2px;

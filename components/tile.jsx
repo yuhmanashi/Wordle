@@ -17,11 +17,11 @@ export default class Tile extends React.Component {
             if (tile.attempt !== count){
                 fColor = 'white';
                 if (tile.correct()){
-                    bColor = 'green'
-                    bgColor = 'green'
+                    bColor = '#93C572'
+                    bgColor = '#93C572'
                 } else if (tile.correctLetter){
-                    bColor = 'yellow'
-                    bgColor = 'yellow'
+                    bColor = '#E1C16E'
+                    bgColor = '#E1C16E'
                 } else {
                     bColor = 'grey'
                     bgColor = 'grey'

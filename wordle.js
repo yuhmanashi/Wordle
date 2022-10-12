@@ -28,6 +28,7 @@ export class Board {
         this.answer = answer;
         this.grid = [];
         this.count = 0;
+        this.won = false;
 
         this.generateBoard();
     }
@@ -66,7 +67,7 @@ export class Board {
             console.log('Invalid Word')
             return false;
         } else {
-            this.checkWin();
+            this.checkWin()
             return true;
         }
     }
@@ -78,6 +79,8 @@ export class Board {
                 console.log('L')
             }
         } else {
+            this.count++
+            this.won = true;
             console.log('W')
         }
     }
